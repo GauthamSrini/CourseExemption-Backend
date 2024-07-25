@@ -1,7 +1,7 @@
 const { post_query_database, get_query_database } = require("../../../config/database_utils");
 
 exports.add_company = async (req, res) => {
-  const { companyName, companyAddress, companyPhoneNumber } = req.body;
+  let { companyName, companyAddress, companyPhoneNumber } = req.body;
   companyName = companyName.toUpperCase();
   companyAddress = companyAddress.toUpperCase();
   try {

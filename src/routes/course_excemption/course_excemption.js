@@ -47,12 +47,17 @@ const ApplyAddonHonorMinor = require("../../controllers/course_excemption/addon_
 const AddonHmApprovalMembers = require("../../controllers/course_excemption/addon_honor_minor/approval_members")
 const AvailableAcademicYears = require("../../controllers/course_excemption/available_academic_year")
 const AvailableSemester = require("../../controllers/course_excemption/available_semester")
+const InternExcelUpload = require("../../controllers/course_excemption/internship/internship_excel_upload")
+const InternCompanySearch = require("../../controllers/course_excemption/internship/searching_companies")
+const InternCompanyEdit = require("../../controllers/course_excemption/internship/edit_intern_companies")
+const InternCompanyDelete = require("../../controllers/course_excemption/internship/deleting_intern_company")
 
 //middleware for storing the excel sheet
 const upload = require("../../middleware/upload");
 const uploadOneCredit = require("../../middleware/uploadOneCredit")
 const uploadHonorMinor = require("../../middleware/upload_honor_minor")
 const uploadAddOn = require("../../middleware/upload_addon")
+const uploadIntern = require("../../middleware/upload_intern_company")
 
 
 const router = express.Router()
@@ -105,6 +110,10 @@ router.post("/AddHm/DeleteAddOnHonorMinor",DeleteAddOnHonorMinor.delete_addon_ho
 router.get("/AddHm/CompletedAddonHonorMinor",CompletedAddonHonorMinor.get_completed_addon_honor_minor)
 router.post("/AddHm/ApplyAddonHonorMinor",ApplyAddonHonorMinor.apply_addon_honor_minor)
 router.get("/AddHm/AddonHmApprovalMembers",AddonHmApprovalMembers.get_approval_members)
+router.post("/in/InternExcelUpload",uploadIntern.single('file'),InternExcelUpload.processExcelFileIntern)
+router.get("/in/InternCompanySearch",InternCompanySearch.get_company_list)
+router.post("/in/InternCompanyEdit",InternCompanyEdit.edit_company_details)
+router.post("/in/InternCompanyDelete",InternCompanyDelete.delete_company)
 
 
 // router.post("/oc/registered", pdf_uploader_middleware ,oc_registered_details.post_registered)
