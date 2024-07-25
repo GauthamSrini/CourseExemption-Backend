@@ -1,13 +1,38 @@
-const { get_query_database, post_query_database } = require("../../../config/database_utils")
+const { get_query_database } = require("../../../config/database_utils")
 
 exports.get_registered = async(req, res)=>{
+    const { student } = req.query;
     try {
-        const query = `SELECT r.id, cl.name,ms.register_number, ms.name, r.type, r.start_date, r.end_date, r.exam_date, r.mark, r.certificate_url, r.certificate_path, r.approval_status
-        FROM ce_oc_registered r
-        INNER JOIN ce_oc_courselist cl ON r.course = cl.id
-        INNER JOIN master_students ms ON r.student = ms.id
-        WHERE r.status = '1'`
-        const registered_details = await get_query_database(query)
+        const query = `SELECT 
+        ce_oc_registered.id,
+        ce_oc_platform.name AS platform_name,
+        ce_oc_courselist.name AS course_name,
+        master_students.name AS student_name,
+        ce_oc_registered.type,
+        ce_oc_registered.semester,
+        DATE_FORMAT(ce_oc_registered.start_date, '%Y-%m-%d') AS start_date,
+        DATE_FORMAT(ce_oc_registered.end_date, '%Y-%m-%d') AS end_date,
+        DATE_FORMAT(ce_oc_registered.exam_date, '%Y-%m-%d') AS exam_date,
+        ce_oc_registered.mark,
+        ce_oc_registered.certificate_url,
+        ce_oc_registered.certificate_path,
+        ce_oc_registered.approval_status,
+        ce_oc_certificate_types.type_name,
+        ce_oc_registered.remarks,
+        ce_oc_registered.status
+    FROM 
+        ce_oc_registered
+    JOIN 
+        ce_oc_courselist ON ce_oc_registered.course = ce_oc_courselist.id
+    JOIN 
+        master_students ON ce_oc_registered.student = master_students.register_number
+    JOIN 
+        ce_oc_platform ON ce_oc_courselist.platform = ce_oc_platform.id
+    LEFT JOIN
+        ce_oc_certificate_types ON ce_oc_registered.certificate_type = ce_oc_certificate_types.id
+    WHERE 
+        ce_oc_registered.student = ?`
+        const registered_details = await get_query_database(query,[student])
         res.status(200).json(registered_details)
     } catch (err) {
         console.error("Error fetching registered details: ", err)
@@ -17,41 +42,4 @@ exports.get_registered = async(req, res)=>{
     }
 }
 
-exports.post_registered = async (req, res) => {
-    const {
-        course,
-        student,
-        type,
-        start_date,
-        end_date,
-        exam_date,
-        mark,
-        certificate_url,
-    } = req.body
-    const certificate_path = req.body.pdf_path
-    if (
-        !course ||
-        !student ||
-        !type ||
-        !start_date ||
-        !end_date ||
-        !exam_date ||
-        !mark ||
-        !certificate_url ||
-        !certificate_path
-    ) {
-        return res.status(400).json({
-            err: "course, student, type, start_date, end_date, exam_date, mark, certificate_url, and certificate_path are required"
-        })
-    }
-    try {
-        const query = `INSERT INTO ce_oc_registered (course, student, type, start_date, end_date, exam_date, mark, certificate_url, certificate_path) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
-        const success_message = await post_query_database(query, [course, student, type, start_date, end_date, exam_date, mark, certificate_url, certificate_path])
-        res.status(200).json({ message: success_message })
-    } catch (err) {
-        console.error("Error adding online course: ", err)
-        res.status(500).json({
-            err: "Error adding online course"
-        })
-    }
-}
+

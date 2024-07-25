@@ -16,8 +16,7 @@ const morgan_config = morgan(
 );
 
 const app = express();
-const port = process.env.DEV_PORT;
-
+const port = 5001;
 // Enable CORS AND LOGGER MIDDLEWARE
 app.use(cors());
 app.use(morgan_config);
