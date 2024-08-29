@@ -10,6 +10,7 @@ const excp_storing = require("../../controllers/course_excemption/one_credit/sto
 const one_credit_exp = require("../../controllers/course_excemption/one_credit/one_credit_excemption");
 const oc_clearing = require("../../controllers/course_excemption/one_credit/clearing_one_credit");
 const online_course_apply = require("../../controllers/course_excemption/online_course/apply_online_course")
+const online_course_apply_special = require("../../controllers/course_excemption/online_course/apply_online_course_special_case")
 const approved_status = require("../../controllers/course_excemption/validation/approved_status")
 const online_faculty_approval = require("../../controllers/course_excemption/online_course/faculty_approval")
 const online_to_approve = require("../../controllers/course_excemption/online_course/to_approve_student")
@@ -108,6 +109,7 @@ router.post("/oc/clearance",ensureAuthenticated,oc_clearing.post_clearance_one_c
 router.get("/oc/SearchCourseList",ensureAuthenticated,SearchCourses.get_CourseListEdit);// Autonomy Affairs
 router.post("/oc/sendReminderEmail",ensureAuthenticated,reminder_email.sendReminderEmail ); //----------------------- deprecated
 router.use("/oc/onlineApply",ensureAuthenticated,online_course_apply) // student
+router.use("/oc/onlineApply/special",ensureAuthenticated,online_course_apply_special)// student
 router.get("/oc/facultyApprovals",ensureAuthenticated,online_faculty_approval.get_faculty_approvals); // HOD, Autonomy Affairs, COE
 router.post("/oc/toApprove",ensureAuthenticated,online_to_approve.post_approve_student); // HOD, Autonomy Affairs, COE
 router.post("/oc/toReject",ensureAuthenticated,online_to_reject.post_reject_student) // HOD, Autonomy Affairs, COE
