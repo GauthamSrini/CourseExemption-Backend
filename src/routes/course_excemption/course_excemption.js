@@ -125,10 +125,10 @@ router.get("/availableRollNumbers",ensureAuthenticated,RollNumbers.get_available
 router.post("/oc/OneCreditSingleUpload",ensureAuthenticated,OneCreditSingleUpload.post_single_one_credit)// COE
 router.get("/oc/SearchingOneCreditCourse",ensureAuthenticated,SearchingOneCredit.get_CourseList_one_credit)// COE
 router.post("/oc/DeletingOnecreditCompletion",ensureAuthenticated,DeletingOnecredit.delete_onecredit_course)// COE
-router.get("/oc/AllActiveApplications",ensureAuthenticated,AllActiveApllications.get_active_courses_count)// all
+router.get("/oc/AllActiveApplications",ensureAuthenticated,AllActiveApllications.get_active_courses_count)// all --------------- need to modify as it contain ce_oc_registered
 router.get("/oc/ApprovedStatusAll",ensureAuthenticated,approved_status.get_approved_status)// all
 router.get("/oc/OnlineCourseApprovalMembers",ensureAuthenticated,OnlineCourseApprovalMembers.get_approval_members)// student HOD,Autonomy Affairs,COE
-router.get("/AvailableElectives",ensureAuthenticated,AvailableElectives.get_available_elective)// student
+router.get("/AvailableElectives",ensureAuthenticated,AvailableElectives.get_available_elective)// student ---------- need to modify as it has ce_oc_registered
 router.get("/AvailableAcademicYears",ensureAuthenticated,AvailableAcademicYears.get_available_academic_year)// comman to all
 router.get("/AvailableSemester",ensureAuthenticated,AvailableSemester.get_academic_semester)// common to all
 router.get("/AvailableBranches",ensureAuthenticated,AvailableBranch.get_available_branchs)// common to all
@@ -177,7 +177,7 @@ router.post("/AddHm/RevokingAddonHonorMinor",ensureAuthenticated,RevokingAddonHo
 router.post("/AddHm/ClearingAddonHonorMinor",ensureAuthenticated,ClearingAddonHonorMinor.post_clearance_addon_honor_minor)// Office,Head Academics, COE
 router.get("/AddHm/AddHmActiveCoursesForValidation",ensureAuthenticated,AddHmActiveCoursesForValidation.get_active_applications_addHm_for_validation)// student
 
-router.post("/FilterOnlineReport",ensureAuthenticated,FilterOnlineReport.filter_online_report) // except student
+router.post("/FilterOnlineReport",ensureAuthenticated,FilterOnlineReport.filter_online_report) // except student -------- need to modify this as it contains ce_oc_registered
 router.post("/FilterOneCreditReport",ensureAuthenticated,FilterOneCreditReport.filter_one_credit_report)// except student
 router.post("/FilterInternReport",ensureAuthenticated,FilterInternReport.filter_intern_report)// except student
 router.post("/FilterAddonReport",ensureAuthenticated,FilterAddonReport.filter_addon_report)// except student
