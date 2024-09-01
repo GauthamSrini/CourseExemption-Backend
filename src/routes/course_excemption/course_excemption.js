@@ -98,23 +98,23 @@ const router = express.Router()
 
 
 router.get("/",ensureAuthenticated, get_available) // student
-router.get("/oc/courselist",ensureAuthenticated, oc_course_list.get_courselist) // student
+router.get("/oc/courselist",ensureAuthenticated, oc_course_list.get_courselist) // student ----------------- need to modify as it contains ce_oc_registered --------- (Done...)
 router.get("/oc/platform",ensureAuthenticated, oc_platform.get_platform)// student
 router.get("/oc/platform/excemption",ensureAuthenticated, oc_platform.get_platform_excemption);// student
-router.get("/oc/registered",ensureAuthenticated, oc_registered_details.get_registered)// student
+router.get("/oc/registered",ensureAuthenticated, oc_registered_details.get_registered)// student --------------- need to modify as it contains ce_oc_registered
 router.get("/oc/completedCourses",ensureAuthenticated,oc_completed_courses.get_completed)// student
 router.post("/oc/StoringExcemption",ensureAuthenticated,excp_storing.post_Excemption)// student
 router.get("/oc/oneCreditExp",ensureAuthenticated,one_credit_exp.get_one_credit_excemption)// student
 router.post("/oc/clearance",ensureAuthenticated,oc_clearing.post_clearance_one_credit); // office academics, head Academics, COE
 router.get("/oc/SearchCourseList",ensureAuthenticated,SearchCourses.get_CourseListEdit);// Autonomy Affairs
-router.post("/oc/sendReminderEmail",ensureAuthenticated,reminder_email.sendReminderEmail ); //----------------------- deprecated
-router.use("/oc/onlineApply",ensureAuthenticated,online_course_apply) // student
+router.post("/oc/sendReminderEmail",ensureAuthenticated,reminder_email.sendReminderEmail); //----------------------- deprecated
+router.use("/oc/onlineApply",ensureAuthenticated,online_course_apply) // student -------- need to modify as it contains ce_oc_registered --------------- (Done..)
 router.use("/oc/onlineApply/special",ensureAuthenticated,online_course_apply_special)// student
-router.get("/oc/facultyApprovals",ensureAuthenticated,online_faculty_approval.get_faculty_approvals); // HOD, Autonomy Affairs, COE
-router.post("/oc/toApprove",ensureAuthenticated,online_to_approve.post_approve_student); // HOD, Autonomy Affairs, COE
-router.post("/oc/toReject",ensureAuthenticated,online_to_reject.post_reject_student) // HOD, Autonomy Affairs, COE
-router.post("/oc/EditCourseList",ensureAuthenticated,EditCourses.edit_online_course)// Autonomy Affairs
-router.post("/oc/DeleteCourseList",ensureAuthenticated,DeleteCourses.delete_online_course)// Autonomy Affairs
+router.get("/oc/facultyApprovals",ensureAuthenticated,online_faculty_approval.get_faculty_approvals); // HOD, Autonomy Affairs, COE ------------ need to modify as it contains ce_oc_registered
+router.post("/oc/toApprove",ensureAuthenticated,online_to_approve.post_approve_student); // HOD, Autonomy Affairs, COE  ------ need to modify as it contains ce_oc_registered
+router.post("/oc/toReject",ensureAuthenticated,online_to_reject.post_reject_student) // HOD, Autonomy Affairs, COE  ------ need to modify as it contains ce_oc_registered
+router.post("/oc/EditCourseList",ensureAuthenticated,EditCourses.edit_online_course) // Autonomy Affairs
+router.post("/oc/DeleteCourseList",ensureAuthenticated,DeleteCourses.delete_online_course)// Autonomy Affairs -------------- need to modify as it contains ce_oc_registered
 router.get("/oc/courseExpValidation",ensureAuthenticated,online_exemption_validation.get_validation_status)// student
 router.get("/oc/graphData",ensureAuthenticated,ce_graph_data.get_graph_data) //-------------------------------------------------deprecated
 router.post("/oc/SingleOnlineUpload",ensureAuthenticated,SingleUpload.upload_single_online_course)// Autonomy Affairs
@@ -128,7 +128,7 @@ router.post("/oc/DeletingOnecreditCompletion",ensureAuthenticated,DeletingOnecre
 router.get("/oc/AllActiveApplications",ensureAuthenticated,AllActiveApllications.get_active_courses_count)// all --------------- need to modify as it contain ce_oc_registered
 router.get("/oc/ApprovedStatusAll",ensureAuthenticated,approved_status.get_approved_status)// all
 router.get("/oc/OnlineCourseApprovalMembers",ensureAuthenticated,OnlineCourseApprovalMembers.get_approval_members)// student HOD,Autonomy Affairs,COE
-router.get("/AvailableElectives",ensureAuthenticated,AvailableElectives.get_available_elective)// student ---------- need to modify as it has ce_oc_registered
+router.get("/AvailableElectives",ensureAuthenticated,AvailableElectives. get_available_elective)// student ---------- need to modify as it has ce_oc_registered
 router.get("/AvailableAcademicYears",ensureAuthenticated,AvailableAcademicYears.get_available_academic_year)// comman to all
 router.get("/AvailableSemester",ensureAuthenticated,AvailableSemester.get_academic_semester)// common to all
 router.get("/AvailableBranches",ensureAuthenticated,AvailableBranch.get_available_branchs)// common to all
@@ -152,10 +152,10 @@ router.post("/in/InternExcelUpload",ensureAuthenticated,uploadIntern.single('fil
 router.get("/in/InternCompanySearch",ensureAuthenticated,InternCompanySearch.get_company_list)// IIPC
 router.post("/in/InternCompanyEdit",ensureAuthenticated,InternCompanyEdit.edit_company_details)// IIPC
 router.post("/in/InternCompanyDelete",ensureAuthenticated,InternCompanyDelete.delete_company)// IIPC
-router.get("/oc/ApprovedOnlineCourse",ensureAuthenticated,ApprovedOnlineCourse.get_approved_applications)// HOD, Autonomy Affairs, COE
-router.get("/oc/RejectedOnlineCourse",ensureAuthenticated,RejectedOnlineCourse.get_rejected_applications)// HOD, Autonomy Affairs, COE
-router.post("/oc/RevokeOnlineCourse",ensureAuthenticated,RevokeOnlineCourse.revoke_student_status)// HOD, Autonomy Affairs, COE
-router.get("/oc/ActiveApplicationOnlineForValidation",ensureAuthenticated,ActiveApplicationOnlineForValidation.get_active_applications_student_course)// student
+router.get("/oc/ApprovedOnlineCourse",ensureAuthenticated,ApprovedOnlineCourse.get_approved_applications)// HOD, Autonomy Affairs, COE ------ need to modify as it contains ce_oc_registered
+router.get("/oc/RejectedOnlineCourse",ensureAuthenticated,RejectedOnlineCourse.get_rejected_applications)// HOD, Autonomy Affairs, COE ------ need to modify as it contains ce_oc_registered
+router.post("/oc/RevokeOnlineCourse",ensureAuthenticated,RevokeOnlineCourse.revoke_student_status)// HOD, Autonomy Affairs, COE  ------ need to modify as it contains ce_oc_registered
+router.get("/oc/ActiveApplicationOnlineForValidation",ensureAuthenticated,ActiveApplicationOnlineForValidation.get_active_applications_student_course)// student ------------------ need to modify as it contains ce_oc_registered
 router.get("/in/PendingInternApplications",ensureAuthenticated,PendingInternApplications.get_pending_interns)//HOD,IIPC,Rewards,COE
 router.post("/in/ToApproveInternship",ensureAuthenticated,ToApproveInternship.post_approve_internships)//HOD,IIPC,Rewards,COE
 router.post("/in/ToRejectInternship",ensureAuthenticated,ToRejectInternship.post_reject_intern)//HOD,IIPC,Rewards,COE

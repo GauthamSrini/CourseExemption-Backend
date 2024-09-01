@@ -22,12 +22,27 @@ exports.get_courselist = async (req, res)=>{
         week = 8
     }
     try {
-        const query = `SELECT id, name, duration, credit
-        FROM ce_oc_courselist
-        WHERE platform = ? AND status = '1' AND duration = ? AND id NOT IN (SELECT course
-        FROM ce_oc_registered
-        WHERE student = ? AND status = '1')`
-        const courselist = await get_query_database(query, [platform,week,student])
+        const query = `
+      SELECT id, name, duration, credit
+      FROM ce_oc_courselist
+      WHERE platform = ? 
+        AND status = '1' 
+        AND duration = ?
+        AND id NOT IN (
+          SELECT course_1 
+          FROM ce_oc_registered_sample 
+          WHERE student = ? AND course_1 IS NOT NULL AND status = '1'
+          UNION
+          SELECT course_2 
+          FROM ce_oc_registered_sample 
+          WHERE student = ? AND course_2 IS NOT NULL AND status = '1'
+          UNION
+          SELECT course_3 
+          FROM ce_oc_registered_sample 
+          WHERE student = ? AND course_3 IS NOT NULL AND status = '1'
+        )
+    `;
+        const courselist = await get_query_database(query, [platform,week,student,student,student])
         res.status(200).json(courselist)
     } catch (err) {
         console.error("Error fetching course list",err)
