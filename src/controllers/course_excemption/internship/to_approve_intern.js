@@ -4,7 +4,7 @@ const {
 } = require("../../../config/database_utils");
 
 exports.post_approve_internships = async (req, res) => {
-  const { id, user_id, student } = req.body;
+  const { id, user_id, student, tracker } = req.body;
 
   try {
     // finding the cuurent approval Status
@@ -25,9 +25,11 @@ exports.post_approve_internships = async (req, res) => {
     if (user_id === 5 && approval_status === 0) {
       queryUpdateApproval =
         "UPDATE ce_intern_registered SET approval_status = 1 WHERE id = ?";
-    } else if (user_id === 7 && approval_status === 1) {
-      queryUpdateApproval =
-        "UPDATE ce_intern_registered SET approval_status = 2 WHERE id = ?";
+    } else if (user_id === 7) {
+      if(tracker === true)
+      queryUpdateApproval = "UPDATE ce_intern_registered SET tracker_approval = 1 WHERE id = ?";
+      else if (approval_status === 1)
+      queryUpdateApproval = "UPDATE ce_intern_registered SET approval_status = 2 WHERE id = ?";
     } else if (user_id === 8 && approval_status === 2) {
       queryUpdateApproval =
         "UPDATE ce_intern_registered SET approval_status = 3 WHERE id = ?";

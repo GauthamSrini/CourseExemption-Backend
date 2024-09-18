@@ -2,11 +2,11 @@ const { post_query_database } = require("../../../config/database_utils");
 const { get_query_database } = require("../../../config/database_utils")
 
 exports.revoke_intern_status = async (req, res) => {
-    const { userId, id, student } = req.body;
+    const { userId, id, student, tracker } = req.body;
     
     try {
         // Fetch the current approval_status
-        const fetchApprovalStatusQuery = 'SELECT approval_status FROM ce_intern_registered WHERE id = ?';
+        const fetchApprovalStatusQuery = 'SELECT approval_status, certificate_path FROM ce_intern_registered WHERE id = ?';
         const [currentApprovalStatus] = await get_query_database(fetchApprovalStatusQuery, [id]);
 
         if (!currentApprovalStatus) {
@@ -14,6 +14,7 @@ exports.revoke_intern_status = async (req, res) => {
         }
 
         const approval_status = currentApprovalStatus.approval_status;
+        const certificate = currentApprovalStatus.certificate_path;
 
         // Determine the new approval_status based on userId
         let newApprovalStatus;
@@ -29,7 +30,15 @@ exports.revoke_intern_status = async (req, res) => {
             return res.status(400).json({ error: "Invalid userId/You cannot Revoke it" });
         }
 
-        const updateRegisteredQuery = 'UPDATE ce_intern_registered SET approval_status = ? WHERE id = ?';
+        let updateRegisteredQuery;
+        if(userId===7 && tracker === 1 && (certificate === null || certificate === undefined)){
+        updateRegisteredQuery = 'UPDATE ce_intern_registered SET tracker_approval = ? WHERE id = ?';
+        newApprovalStatus = 0;
+        }
+        else
+        {
+        updateRegisteredQuery = 'UPDATE ce_intern_registered SET approval_status = ? WHERE id = ?';
+        }
         await post_query_database(updateRegisteredQuery, [newApprovalStatus, id]);
 
         // If userId is 4, update the nptel column in ce_overal_total_exemption table

@@ -45,52 +45,36 @@ router.post("/internshipApply", upload.fields([
     const stipend = req.body.stipend;
     let amount = 0;
     if(stipend==="Yes"){
-        amount = req.body.amount
+        amount = parseInt(req.body.amount)
     }
 
     const query = `
-      INSERT INTO ce_intern_registered
-      (student, academic_year, semester,  mode, industry, start_date, end_date, duration, stipend, amount, type, report_path, certificate_path, elective)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      UPDATE ce_intern_registered
+      SET stipend = ?, amount = ?, type = '1', report_path = ?, certificate_path = ?, elective = ?
+      WHERE id = ?
     `;
 
     const query1 = `
-      INSERT INTO ce_intern_registered
-      (student, academic_year, semester,  mode, industry, start_date, end_date, duration, stipend, amount, type, report_path, certificate_path)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      UPDATE ce_intern_registered
+      SET stipend = ?, amount = ?, type = '0', report_path = ?, certificate_path = ?
+      WHERE id = ?
     `;
 
     const values = [
-      req.body.rollNo || null,
-      req.body.academic_year || null,
-      req.body.semester || null,
-      req.body.mode || null,
-      req.body.Industry || null,
-      req.body.StartDate || null,
-      req.body.EndDate || null,
-      req.body.duration || null,
-      req.body.stipend || null,
+      String(req.body.stipend),
       amount || null,
-      req.body.courseException || null,
       reportFile,
       certificateFile,
-      req.body.elective 
+      req.body.elective,
+      parseInt(req.body.id)
     ];
 
     const values1 = [
-        req.body.rollNo || null,
-        req.body.academic_year || null,
-        req.body.semester || null,
-        req.body.mode || null,
-        req.body.Industry || null,
-        req.body.StartDate || null,
-        req.body.EndDate || null,
-        req.body.duration || null,
-        req.body.stipend || null,
+        String(req.body.stipend),
         amount || null,
-        req.body.courseException || null,
         reportFile,
         certificateFile, 
+        parseInt(req.body.id)
       ];
 
       if(req.body.courseException === '1'){

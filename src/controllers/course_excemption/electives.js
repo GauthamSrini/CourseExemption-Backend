@@ -8,7 +8,9 @@ exports.get_available_elective = async (req,res) => {
           SELECT e.id, e.elective
           FROM ce_electives e
           WHERE e.id NOT IN (
-            SELECT elective FROM ce_oc_registered WHERE status = '1' AND type = '1' AND student = ?
+            SELECT elective_1 FROM ce_oc_registered_sample WHERE status = '1' AND type = '1' AND student = ?
+            UNION
+            SELECT elective_2 FROM ce_oc_registered_sample WHERE status = '1' AND type = '1' AND student = ?
             UNION
             SELECT elective FROM ce_onecredit_registered WHERE status = '1' AND student = ?
             UNION
@@ -19,7 +21,7 @@ exports.get_available_elective = async (req,res) => {
         `;
     
         // Execute the query
-        const results = await get_query_database(sqlQuery,[student,student,student,student]);
+        const results = await get_query_database(sqlQuery,[student,student,student,student,student]);
     
         // Return the results
         res.status(200).json(results);

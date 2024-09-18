@@ -3,9 +3,9 @@ const { get_query_database } = require("../../../config/database_utils");
 
 exports.delete_online_course = async (req,res) => {
     const {selectedCourseId} = req.body;
-    const CheckQuery = `SELECT * FROM ce_oc_registered WHERE course = ? AND status = '1' `
+    const CheckQuery = `SELECT * FROM ce_oc_registered_sample WHERE course_1 = ? OR course_2 = ? OR course_3 = ? AND status = '1' `
     try{
-        const checkResult = await get_query_database(CheckQuery,[selectedCourseId])
+        const checkResult = await get_query_database(CheckQuery,[selectedCourseId,selectedCourseId,selectedCourseId])
         if(checkResult.length===0){
         const query = `DELETE FROM ce_oc_courselist WHERE id = ?`
         const DeleteCourse = await post_query_database(query,[selectedCourseId])

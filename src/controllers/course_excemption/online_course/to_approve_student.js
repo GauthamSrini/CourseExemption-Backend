@@ -8,7 +8,7 @@ exports.post_approve_student = async (req, res) => {
 
   try {
     const fetchApprovalStatusQuery =
-      "SELECT approval_status FROM ce_oc_registered WHERE id = ?";
+      "SELECT approval_status FROM ce_oc_registered_sample WHERE id = ?";
     const [currentApprovalStatus] = await get_query_database(
       fetchApprovalStatusQuery,
       [id]
@@ -23,13 +23,13 @@ exports.post_approve_student = async (req, res) => {
     let queryUpdateApproval;
     if (user_id === 5 && approval_status === 0) {
       queryUpdateApproval =
-        "UPDATE ce_oc_registered SET approval_status = 1 WHERE id = ?";
+        "UPDATE ce_oc_registered_sample SET approval_status = 1 WHERE id = ?";
     } else if (user_id === 6 && approval_status === 1) {
       queryUpdateApproval =
-        "UPDATE ce_oc_registered SET approval_status = 2 WHERE id = ?";
+        "UPDATE ce_oc_registered_sample SET approval_status = 2 WHERE id = ?";
     } else if (user_id === 4 && approval_status === 2) {
       queryUpdateApproval =
-        "UPDATE ce_oc_registered SET approval_status = 3 WHERE id = ?";
+        "UPDATE ce_oc_registered_sample SET approval_status = 3 WHERE id = ?";
     } else {
       return res
         .status(400)

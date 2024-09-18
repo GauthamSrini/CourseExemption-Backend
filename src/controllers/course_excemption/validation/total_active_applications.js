@@ -7,7 +7,7 @@ exports.get_active_courses_count = async (req, res) => {
         // Query to fetch active courses from ce_oc_registered
         const query_oc_registered = `
             SELECT COUNT(*) AS active_count
-            FROM ce_oc_registered
+            FROM ce_oc_registered_sample
             WHERE type = '1' AND status = '1' AND student = ?
         `;
         const [oc_registered_status] = await get_query_database(query_oc_registered, [student]);

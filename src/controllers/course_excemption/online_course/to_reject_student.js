@@ -5,7 +5,7 @@ exports.post_reject_student = async (req, res) => {
 
     try {
         // Step 1: Fetch the current approval_status
-        const queryFetchStatus = 'SELECT approval_status FROM ce_oc_registered WHERE id = ?';
+        const queryFetchStatus = 'SELECT approval_status FROM ce_oc_registered_sample WHERE id = ?';
         const result = await get_query_database(queryFetchStatus, [id]);
 
         if (result.length === 0) {
@@ -30,7 +30,7 @@ exports.post_reject_student = async (req, res) => {
 
         // Step 2: Update the respective row
         const queryUpdate = `
-            UPDATE ce_oc_registered 
+            UPDATE ce_oc_registered_sample 
             SET approval_status = -1, remarks = ?, status = '0', rejected_by = ? 
             WHERE id = ?
         `;

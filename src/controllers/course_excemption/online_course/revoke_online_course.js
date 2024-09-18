@@ -6,7 +6,7 @@ exports.revoke_student_status = async (req, res) => {
     
     try {
         // Fetch the current approval_status
-        const fetchApprovalStatusQuery = 'SELECT approval_status FROM ce_oc_registered WHERE id = ?';
+        const fetchApprovalStatusQuery = 'SELECT approval_status FROM ce_oc_registered_sample WHERE id = ?';
         const [currentApprovalStatus] = await get_query_database(fetchApprovalStatusQuery, [id]);
 
         if (!currentApprovalStatus) {
@@ -26,7 +26,7 @@ exports.revoke_student_status = async (req, res) => {
              return res.status(400).json({ error: "Invalid userId/You cannot Revoke it" });
          }
 
-        const updateRegisteredQuery = 'UPDATE ce_oc_registered SET approval_status = ? WHERE id = ?';
+        const updateRegisteredQuery = 'UPDATE ce_oc_registered_sample SET approval_status = ? WHERE id = ?';
         await post_query_database(updateRegisteredQuery, [newApprovalStatus, id]);
 
         // If userId is 4, update the nptel column in ce_overal_total_exemption table
