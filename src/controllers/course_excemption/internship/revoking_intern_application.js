@@ -6,7 +6,7 @@ exports.revoke_intern_status = async (req, res) => {
     
     try {
         // Fetch the current approval_status
-        const fetchApprovalStatusQuery = 'SELECT approval_status, certificate_path FROM ce_intern_registered WHERE id = ?';
+        const fetchApprovalStatusQuery = 'SELECT approval_status FROM ce_intern_registered WHERE id = ?';
         const [currentApprovalStatus] = await get_query_database(fetchApprovalStatusQuery, [id]);
 
         if (!currentApprovalStatus) {
@@ -14,7 +14,9 @@ exports.revoke_intern_status = async (req, res) => {
         }
 
         const approval_status = currentApprovalStatus.approval_status;
-        const certificate = currentApprovalStatus.certificate_path;
+
+        console.log(approval_status);
+        
 
         // Determine the new approval_status based on userId
         let newApprovalStatus;
@@ -26,14 +28,13 @@ exports.revoke_intern_status = async (req, res) => {
             newApprovalStatus = 2;  
         } else if ((userId === 4)&&(approval_status === 4)) {
             newApprovalStatus = 3;  
-        }else {
-            return res.status(400).json({ error: "Invalid userId/You cannot Revoke it" });
+        } else if((userId === 7)&&(tracker === 1)){
+            newApprovalStatus = 0;
         }
 
         let updateRegisteredQuery;
-        if(userId===7 && tracker === 1 && (certificate === null || certificate === undefined)){
+        if(userId===7 && tracker === 1){
         updateRegisteredQuery = 'UPDATE ce_intern_registered SET tracker_approval = ? WHERE id = ?';
-        newApprovalStatus = 0;
         }
         else
         {
